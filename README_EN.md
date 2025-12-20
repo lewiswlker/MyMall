@@ -116,17 +116,25 @@ MyMall
 
 3. **Configure the application**
    
-   Modify the `src/main/resources/application.yml` file to configure database and Redis connection:
+   Modify the `src/main/resources/application-dev.yml` file (for development) or `application-prod.yml` (for production) to configure database, Redis, and RabbitMQ connections:
    ```yaml
    spring:
      datasource:
-       url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+       driver-class-name: com.mysql.cj.jdbc.Driver
+       url: jdbc:mysql://127.0.0.1:3306/mymall?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
        username: your_username
        password: your_password
      redis:
-       host: localhost
+       host: 127.0.0.1
        port: 6379
+     rabbitmq:
+       addresses: 127.0.0.1
+       port: 5672
+       username: guest
+       password: guest
    ```
+   
+   The main configuration file `application.yml` is used to select the active environment profile (defaults to dev).
 
 4. **Build the project**
    ```bash
@@ -149,11 +157,17 @@ MyMall
 
 ## 📝 Configuration
 
-The main configuration file is located at `src/main/resources/application.yml`, and you need to configure:
+The project uses Spring Boot configuration files located in the `src/main/resources/` directory:
+
+- **application.yml** - Main configuration file, used to select the active environment (defaults to dev)
+- **application-dev.yml** - Development environment configuration
+- **application-prod.yml** - Production environment configuration
+
+You need to configure:
 
 - **Database Configuration** - MySQL connection information
 - **Redis Configuration** - Redis service address and port
-- **RabbitMQ Configuration** - Message queue configuration (if needed)
+- **RabbitMQ Configuration** - Message queue connection information
 - **MyBatis Configuration** - SQL mapping file paths
 
 **Note:** The database structure may have been updated during development, and the `mall.sql` file may not be fully synchronized with the latest changes. Please adjust according to actual runtime conditions.

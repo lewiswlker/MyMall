@@ -116,17 +116,25 @@ MyMall
 
 3. **配置应用**
    
-   修改 `src/main/resources/application.yml` 文件，配置数据库和 Redis 连接信息：
+   修改 `src/main/resources/application-dev.yml` 文件（开发环境）或 `application-prod.yml`（生产环境），配置数据库、Redis 和 RabbitMQ 连接信息：
    ```yaml
    spring:
      datasource:
-       url: jdbc:mysql://localhost:3306/mall?useUnicode=true&characterEncoding=utf-8
+       driver-class-name: com.mysql.cj.jdbc.Driver
+       url: jdbc:mysql://127.0.0.1:3306/mymall?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
        username: your_username
        password: your_password
      redis:
-       host: localhost
+       host: 127.0.0.1
        port: 6379
+     rabbitmq:
+       addresses: 127.0.0.1
+       port: 5672
+       username: guest
+       password: guest
    ```
+   
+   主配置文件 `application.yml` 用于选择激活的环境配置（默认为 dev）。
 
 4. **构建项目**
    ```bash
@@ -149,11 +157,17 @@ MyMall
 
 ## 📝 配置说明
 
-主要配置文件位于 `src/main/resources/application.yml`，需要配置以下内容：
+项目使用 Spring Boot 配置文件，位于 `src/main/resources/` 目录：
+
+- **application.yml** - 主配置文件，用于选择激活的环境（默认 dev）
+- **application-dev.yml** - 开发环境配置
+- **application-prod.yml** - 生产环境配置
+
+需要配置以下内容：
 
 - **数据库配置** - MySQL 连接信息
 - **Redis 配置** - Redis 服务地址和端口
-- **RabbitMQ 配置** - 消息队列配置（如需使用）
+- **RabbitMQ 配置** - 消息队列连接信息
 - **MyBatis 配置** - SQL 映射文件路径
 
 **注意：** 开发过程中数据库结构可能有所更新，`mall.sql` 文件可能未完全同步最新改动，建议根据实际运行情况调整。
