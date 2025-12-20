@@ -107,10 +107,10 @@ MyMall
    mysql -u root -p
    
    # 创建数据库
-   CREATE DATABASE mall;
+   CREATE DATABASE mymall;
    
    # 导入数据库脚本
-   USE mall;
+   USE mymall;
    SOURCE mall.sql;
    ```
 

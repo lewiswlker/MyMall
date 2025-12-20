@@ -107,10 +107,10 @@ MyMall
    mysql -u root -p
    
    # Create database
-   CREATE DATABASE mall;
+   CREATE DATABASE mymall;
    
    # Import database script
-   USE mall;
+   USE mymall;
    SOURCE mall.sql;
    ```
 
